@@ -250,7 +250,7 @@ for (const [up, n] of media) {
     // Перекодування відкидає все, крім пікселів (EXIF, вкладені дані)
     await sharp(local).rotate().resize({ width: 1600, height: 1600, fit: 'inside', withoutEnlargement: true }).webp({ quality: 80 }).toFile(`public/img/${n}.webp`);
     const t = portraits.has(n)
-      ? sharp(local).rotate().resize({ width: 400, height: 500, fit: 'cover', position: 'attention' })
+      ? sharp(local).rotate().resize({ width: 400, height: 500, fit: 'cover', position: 'top' })
       : sharp(local).rotate().resize({ width: 480, height: 480, fit: 'cover', position: 'attention' });
     await t.webp({ quality: 74 }).toFile(`public/img/thumbs/${n}.webp`);
   } catch (e) {
