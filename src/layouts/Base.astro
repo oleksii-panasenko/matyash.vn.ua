@@ -3,7 +3,7 @@ import '../styles/global.css';
 
 interface Props { title?: string; description?: string }
 const SITE = 'Ольга Матяш';
-const { title, description = 'Матяш Ольга Іванівна — доктор педагогічних наук, професор кафедри алгебри і методики навчання математики ВДПУ імені Михайла Коцюбинського.' } = Astro.props;
+const { title, description = 'Матяш Ольга Іванівна — доктор педагогічних наук, професор кафедри математичної освіти ВДПУ імені Михайла Коцюбинського.' } = Astro.props;
 const fullTitle = title ? `${title} — ${SITE}` : `${SITE} — персональний сайт`;
 
 const nav = [
@@ -47,7 +47,7 @@ const path = decodeURI(Astro.url.pathname);
     <footer class="site-footer">
       <div class="wrap footer-row">
         <p>
-          Кафедра алгебри і методики навчання математики<br />
+          Кафедра математичної освіти<br />
           Вінницький державний педагогічний університет імені Михайла Коцюбинського<br />
           вул. Острозького, 32, Вінниця
         </p>
