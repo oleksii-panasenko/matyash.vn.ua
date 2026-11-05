@@ -1,0 +1,22 @@
+---
+// Звичайні текстові сторінки з src/content/pages/. Головна і «Наукова школа» мають власні шаблони.
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PhotoViewer from '../components/PhotoViewer.astro';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages
+    .filter((p) => !['/', '/school/'].includes(p.data.path))
+    .map((page) => ({ params: { path: page.data.path.replace(/^\/|\/$/g, '') }, props: { page } }));
+}
+const { page } = Astro.props;
+const { Content } = await render(page);
+---
+<Base title={page.data.title} description={page.data.description}>
+  <div class="wrap">
+    <header class="page-head"><h1>{page.data.title}</h1></header>
+    <article class="doc prose"><Content /></article>
+  </div>
+  <PhotoViewer />
+</Base>

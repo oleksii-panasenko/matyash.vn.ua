@@ -1,0 +1,38 @@
+---
+// Перегляд фото з галереї поверх сторінки. Без JS посилання просто відкривають повне фото.
+---
+<dialog class="viewer" aria-label="Перегляд фото">
+  <img alt="" />
+  <div class="bar">
+    <button type="button" data-step="-1">Попереднє</button>
+    <button type="button" data-close>Закрити</button>
+    <button type="button" data-step="1">Наступне</button>
+  </div>
+</dialog>
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('dialog.viewer')!;
+  const img = dialog.querySelector('img')!;
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.gallery a')];
+  let i = 0;
+  const show = (n: number) => {
+    i = (n + links.length) % links.length;
+    img.src = links[i].href;
+  };
+  links.forEach((a, n) =>
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      show(n);
+      dialog.showModal();
+    }),
+  );
+  dialog.addEventListener('click', (e) => {
+    const t = e.target as HTMLElement;
+    if (t.dataset.step) show(i + Number(t.dataset.step));
+    else if (t.hasAttribute('data-close') || t === dialog) dialog.close();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!dialog.open) return;
+    if (e.key === 'ArrowRight') show(i + 1);
+    if (e.key === 'ArrowLeft') show(i - 1);
+  });
+</script>

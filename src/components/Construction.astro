@@ -1,0 +1,40 @@
+---
+// Побудова рівностороннього трикутника циркулем і лінійкою (Евклід, І.1)
+// та його образ при симетрії відносно прямої AB — натяк на «рухи фігур».
+// A(140,250), B(260,250), |AB| = 120, C = (200, 250 − 60√3).
+---
+<svg class="construction" viewBox="0 0 400 420" aria-hidden="true" focusable="false">
+  <g class="faint">
+    <circle class="draw d1" cx="140" cy="250" r="120" />
+    <circle class="draw d2" cx="260" cy="250" r="120" />
+    <line class="draw d3" x1="8" y1="250" x2="392" y2="250" />
+  </g>
+  <path class="draw d4 image" d="M140 250 L260 250 L200 353.92 Z" />
+  <path class="draw d5 figure" d="M140 250 L260 250 L200 146.08 Z" />
+  <g class="pts">
+    <circle cx="140" cy="250" r="3" /><circle cx="260" cy="250" r="3" /><circle cx="200" cy="146.08" r="3" />
+  </g>
+  <g class="lbl">
+    <text x="120" y="272">A</text><text x="268" y="272">B</text><text x="194" y="134">C</text><text x="192" y="382">C′</text>
+  </g>
+</svg>
+<style>
+  .construction { width: 100%; height: auto; overflow: visible; }
+  .faint { stroke: var(--line); stroke-width: 1.2; fill: none; }
+  .figure { stroke: var(--accent); stroke-width: 2.2; fill: color-mix(in srgb, var(--accent) 7%, transparent); stroke-linejoin: round; }
+  .image { stroke: var(--accent); stroke-width: 1.3; stroke-dasharray: 5 6; fill: none; opacity: 0.6; }
+  .pts { fill: var(--ink); }
+  .lbl { font: italic 15px var(--serif); fill: var(--muted); }
+  .draw { stroke-dasharray: var(--len) var(--len); stroke-dashoffset: 0; }
+  .image.draw { stroke-dasharray: 5 6; }
+  @media (prefers-reduced-motion: no-preference) {
+    .d1, .d2 { --len: 760; animation: draw 1.4s ease-out both; }
+    .d2 { animation-delay: 0.25s; }
+    .d3 { --len: 390; animation: draw 0.9s ease-out 0.5s both; }
+    .d5 { --len: 360; animation: draw 0.9s ease-in-out 1.2s both; }
+    .d4 { animation: appear 0.8s ease 2s both; }
+    .lbl, .pts { animation: appear 0.6s ease 1.9s both; }
+  }
+  @keyframes draw { from { stroke-dashoffset: var(--len); } to { stroke-dashoffset: 0; } }
+  @keyframes appear { from { opacity: 0; } }
+</style>

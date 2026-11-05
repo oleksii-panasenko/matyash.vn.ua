@@ -1,0 +1,51 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Construction from '../components/Construction.astro';
+import PhotoViewer from '../components/PhotoViewer.astro';
+
+const page = (await getEntry('pages', 'index'))!;
+const { Content } = await render(page);
+const profiles = [
+  ['ORCID', 'https://orcid.org/0000-0002-7149-9545'],
+  ['Scopus', 'https://www.scopus.com/authid/detail.uri?authorId=57215425357'],
+  ['Google Scholar', 'https://scholar.google.com.ua/citations?user=yeC5WRMAAAAJ&hl=uk'],
+];
+---
+<Base>
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Ольга Іванівна Матяш</h1>
+        <p class="role">Доктор педагогічних наук, професор, професор кафедри алгебри і методики навчання математики Вінницького державного педагогічного університету імені Михайла Коцюбинського.</p>
+        <p class="interest">Досліджує методичну підготовку майбутніх учителів математики до навчання геометрії. Керує науковою школою, у якій захищено 15 кандидатських і одну докторську дисертацію.</p>
+        <ul class="profiles">
+          {profiles.map(([label, href]) => <li><a href={href}>{label}</a></li>)}
+        </ul>
+      </div>
+      <div class="hero-figure">
+        <Construction />
+        {page.data.photo && <img class="portrait" src={`/img/thumbs/${page.data.photo}.webp`} alt="Ольга Іванівна Матяш" width="400" height="500" />}
+      </div>
+    </section>
+    <article class="doc prose"><Content /></article>
+  </div>
+  <PhotoViewer />
+</Base>
+<style>
+  .hero { display: grid; gap: 2rem; padding: 3rem 0 1.5rem; align-items: center; }
+  .hero h1 { font-size: clamp(2.4rem, 6vw, 4.1rem); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; margin: 0 0 1.4rem; max-width: 12ch; }
+  .role { font-size: 1.2rem; line-height: 1.55; margin: 0 0 1rem; max-width: 36rem; }
+  .interest { color: var(--muted); max-width: 36rem; margin: 0 0 1.6rem; }
+  .profiles { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.6rem; font-family: var(--sans); }
+  .profiles a { display: inline-block; padding: 0.35rem 0.85rem; border: 1px solid var(--line); border-radius: 2px; text-decoration: none; color: var(--ink); background: var(--sheet); }
+  .profiles a:hover { border-color: var(--accent); color: var(--accent); }
+  /* Портрет ліворуч, побудова праворуч поверх нього: коло A перетинає фото, трикутник лишається вільним */
+  .hero-figure { position: relative; width: 100%; max-width: 30rem; aspect-ratio: 10 / 8.4; justify-self: center; }
+  .portrait { position: absolute; left: 0; top: 4%; width: 46%; aspect-ratio: 4 / 5; object-fit: cover; z-index: 1; }
+  .hero-figure :global(.construction) { position: absolute; left: 26%; top: 0; width: 74%; z-index: 2; pointer-events: none; }
+  @media (min-width: 56rem) {
+    .hero { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); padding: 4.5rem 0 5rem; }
+    .hero-figure { justify-self: end; }
+  }
+</style>

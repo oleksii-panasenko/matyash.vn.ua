@@ -1,0 +1,53 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PhotoViewer from '../components/PhotoViewer.astro';
+
+const page = (await getEntry('pages', 'school'))!;
+const { Content } = await render(page);
+const people = await Promise.all(
+  (await getCollection('school'))
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(async (p) => ({ ...p.data, id: p.id, Body: (await render(p)).Content })),
+);
+---
+<Base title={page.data.title} description={page.data.description}>
+  <div class="wrap">
+    <header class="page-head">
+      <h1>Наукова школа</h1>
+      <p class="lead">«Підвищення ефективності фахової підготовки учителів математики в умовах розвитку вищої освіти в Україні». Керівниця — Ольга Іванівна Матяш.</p>
+    </header>
+    <article class="doc prose">
+      <h2>Керівниця школи</h2>
+      <div class="person head-person">
+        {page.data.photo && <img class="person-photo" src={`/img/thumbs/${page.data.photo}.webp`} alt="Ольга Іванівна Матяш" width="400" height="500" />}
+        <h3 class="name">Ольга Іванівна Матяш</h3>
+        <Content />
+      </div>
+      <h2>Учні</h2>
+      <ol class="people">
+        {people.map((p) => (
+          <li class="person" id={p.id}>
+            {p.photo && <img class="person-photo" src={`/img/thumbs/${p.photo}.webp`} alt={p.name} width="400" height="500" loading="lazy" />}
+            <h3>{p.name}</h3>
+            {p.year && <p class="year">{p.year}</p>}
+            <p.Body />
+          </li>
+        ))}
+      </ol>
+    </article>
+  </div>
+  <PhotoViewer />
+</Base>
+<style>
+  .person { display: flow-root; }
+  .person-photo { float: right; width: 9rem; aspect-ratio: 4 / 5; object-fit: cover; margin: 0.3rem 0 1rem 1.5rem; background: var(--accent-soft); }
+  .people { list-style: none; padding: 0; margin: 0; }
+  .people .person { padding: 0 0 2rem; margin: 0 0 2rem; border-bottom: 1px solid var(--line); }
+  .people .person:last-child { border-bottom: 0; }
+  .person h3 { margin: 0 0 0.2rem; font-size: 1.25rem; }
+  .head-person h3 { margin-bottom: 1rem; }
+  .head-person :global(h3:not(.name)) { clear: both; }
+  .year { margin: 0 0 0.8rem; font-family: var(--sans); color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+  @media (max-width: 30rem) { .person-photo { width: 6.5rem; margin-left: 1rem; } }
+</style>

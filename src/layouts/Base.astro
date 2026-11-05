@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+
+interface Props { title?: string; description?: string }
+const SITE = 'Ольга Матяш';
+const { title, description = 'Матяш Ольга Іванівна — доктор педагогічних наук, професор кафедри алгебри і методики навчання математики ВДПУ імені Михайла Коцюбинського.' } = Astro.props;
+const fullTitle = title ? `${title} — ${SITE}` : `${SITE} — персональний сайт`;
+
+const nav = [
+  ['/', 'Про мене'],
+  ['/publications/', 'Публікації'],
+  ['/school/', 'Наукова школа'],
+  ['/phd-help/', 'Аспіранту'],
+  ['/conference/', 'Конференція'],
+];
+const path = decodeURI(Astro.url.pathname);
+---
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="uk_UA" />
+    <meta property="og:image" content={new URL('/img/2.webp', Astro.site)} />
+  </head>
+  <body>
+    <a class="skip" href="#main">До змісту</a>
+    <header class="site-header">
+      <div class="wrap header-row">
+        <a class="wordmark" href="/">Ольга Матяш</a>
+        <nav aria-label="Розділи сайту">
+          {nav.map(([href, label]) => (
+            <a href={href} aria-current={path === href ? 'page' : undefined}>{label}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap footer-row">
+        <p>
+          Кафедра алгебри і методики навчання математики<br />
+          Вінницький державний педагогічний університет імені Михайла Коцюбинського<br />
+          вул. Острозького, 32, Вінниця
+        </p>
+        <p>
+          <a href="mailto:matyash_27@ukr.net">matyash_27@ukr.net</a><br />
+          <a href="http://amnm.vspu.edu.ua">amnm.vspu.edu.ua</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
