@@ -3,6 +3,7 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PhotoViewer from '../components/PhotoViewer.astro';
+import PageFigure from '../components/PageFigure.astro';
 
 export async function getStaticPaths() {
   const pages = await getCollection('pages');
@@ -12,10 +13,15 @@ export async function getStaticPaths() {
 }
 const { page } = Astro.props;
 const { Content } = await render(page);
+const figures = { '/publications/': 'golden', '/phd-help/': 'bisector', '/conference/': 'circles' } as const;
+const figure = figures[page.data.path as keyof typeof figures];
 ---
 <Base title={page.data.title} description={page.data.description}>
   <div class="wrap">
-    <header class="page-head"><h1>{page.data.title}</h1></header>
+    <header class="page-head">
+      {figure && <div class="head-figure"><PageFigure kind={figure} /></div>}
+      <h1>{page.data.title}</h1>
+    </header>
     <article class="doc prose"><Content /></article>
   </div>
   <PhotoViewer />

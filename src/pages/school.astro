@@ -2,6 +2,7 @@
 import { getCollection, getEntry, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PhotoViewer from '../components/PhotoViewer.astro';
+import PageFigure from '../components/PageFigure.astro';
 
 const page = (await getEntry('pages', 'school'))!;
 const { Content } = await render(page);
@@ -14,6 +15,7 @@ const people = await Promise.all(
 <Base title={page.data.title} description={page.data.description}>
   <div class="wrap">
     <header class="page-head">
+      <div class="head-figure"><PageFigure kind="incircle" /></div>
       <h1>Наукова школа</h1>
       <p class="lead">«Підвищення ефективності фахової підготовки учителів математики в умовах розвитку вищої освіти в Україні». Керівниця — Ольга Іванівна Матяш.</p>
     </header>

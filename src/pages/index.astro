@@ -11,6 +11,11 @@ const profiles = [
   ['Scopus', 'https://www.scopus.com/authid/detail.uri?authorId=57215425357'],
   ['Google Scholar', 'https://scholar.google.com.ua/citations?user=yeC5WRMAAAAJ&hl=uk'],
 ];
+const band = [
+  ['dsc-0217-2', 'Ольга Іванівна Матяш виступає на конференції'],
+  ['dsc-0719', 'Зі студентами та колегами'],
+  ['photo-2020-05-11-01-04-20', 'На занятті зі студентами'],
+];
 ---
 <Base>
   <div class="wrap">
@@ -28,6 +33,9 @@ const profiles = [
         {page.data.photo && <img class="portrait" src={`/img/thumbs/${page.data.photo}.webp`} alt="Ольга Іванівна Матяш" width="400" height="500" />}
       </div>
     </section>
+    <div class="gallery band">
+      {band.map(([name, alt]) => <a href={`/img/${name}.webp`}><img src={`/img/band/${name}.webp`} alt={alt} width="900" height="640" loading="lazy" /></a>)}
+    </div>
     <article class="doc prose"><Content /></article>
   </div>
   <PhotoViewer />
