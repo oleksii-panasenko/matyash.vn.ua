@@ -44,6 +44,10 @@ order: 17
   [![](/img/thumbs/nazva.webp)](/img/nazva.webp)
 ```
 
+### Стрічка фото і малюнки в шапках
+
+Три фото під шапкою головної задано списком `band` у `src/pages/index.astro`. Їхні зменшені копії (900×640) лежать у `public/img/band/`. Геометричні побудови в шапках сторінок намальовано в `src/components/PageFigure.astro`.
+
 ## Команди
 
 Потрібен Node.js 22.23.4 або новіший (див. `.nvmrc`).
